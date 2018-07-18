@@ -126,3 +126,5 @@ def test_render_world_map():
 
     # 2010
     render_world_map(gdpinfo, pygal_countries, "2010", "isp_gdp_world_name_2010.svg")
+
+test_render_world_map()
