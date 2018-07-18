@@ -1,11 +1,10 @@
 """
-Project for Week 3 of "Python Data Visualization".
-Unify data via common country name.
+presenting data on a world map using pygal and common two-letter country codes
 
-Be sure to read the project description page for further information
-about the expected behavior of the program.
+author: @eshrawan
 """
 
+# importing necessary mosules for project
 import csv
 import math
 import pygal
@@ -23,7 +22,11 @@ def reconcile_countries_by_name(plot_countries, gdp_countries):
       gdp_countries The set contains the country codes from
       plot_countries that were not found in gdp_countries.
     """
-    return {}, set()
+    list_tups = list(filter(lambda tup: tup[1] in gdp_countries,   plot_countries.items()))
+    finaldict = dict(list_tups)
+    list_tups_2 = list(filter(lambda tup: tup[1] not in gdp_countries,  plot_countries.items()))
+    finalset = set([item[0] for item in l_of_tups])
+    return finaldict, finalset
 
 
 def build_map_dict_by_name(gdpinfo, plot_countries, year):
@@ -93,9 +96,3 @@ def test_render_world_map():
 
     # 2010
     render_world_map(gdpinfo, pygal_countries, "2010", "isp_gdp_world_name_2010.svg")
-
-
-# Make sure the following call to test_render_world_map is commented
-# out when submitting to OwlTest/CourseraTest.
-
-# test_render_world_map()
