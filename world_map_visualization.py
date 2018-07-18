@@ -87,7 +87,15 @@ def render_world_map(gdpinfo, plot_countries, year, map_file):
       Creates a world map plot of the GDP data for the given year and
       writes it to a file named by map_file.
     """
-    return
+    plot_dict_1, plot_set_1, plot_set_2 = build_map_dict_by_name(gdpinfo, plot_countries, year)
+    worldmap = pygal.maps.world.World()
+    title_map = 'GDP by country for ' + year + ' (log scale), unifiedby common country NAME'
+    worldmap.title = title_map
+    label_map = 'GDP for ' + year
+    worldmap.add(label_map,plot_dict_1 )
+    worldmap.add('Missing from World Bank Data',plot_set_1 )
+    worldmap.add('No GDP Data' ,plot_set_2 )
+    worldmap.render_in_browser()
 
 
 def test_render_world_map():
