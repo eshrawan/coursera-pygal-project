@@ -46,7 +46,23 @@ def build_map_dict_by_name(gdpinfo, plot_countries, year):
       codes from plot_countries that were found in the GDP data file, but
       have no GDP data for the specified year.
     """
-    return {}, set(), set()
+    country_dict = {}
+    country_no_data = set()
+    dict_2 = {}
+    with open(gdpinfo["gdpfile"],"r", newline="") as openfile:
+        csvread =  csv.DictReader(openfile, skipinitialspace = True,
+        delimiter = gdpinfo["separator"], quotechar=gdpinfo["quote"])
+        for item in csvread:
+                dict_2[item[gdpinfo["country_name"]]] = item
+        final_dict, final_set = reconcile_countries_by_name(plot_countries, dict_2)
+        for key,value in final_dict.items():
+            if dict_2[value][year] == "":
+                country_no_data(key)
+            else:
+                country_dict[key] = math.log10(float(dict_2[value][year]))
+
+        return country_dict, final_set, country_no_data
+
 
 
 def render_world_map(gdpinfo, plot_countries, year, map_file):
