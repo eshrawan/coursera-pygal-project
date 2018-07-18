@@ -96,35 +96,3 @@ def render_world_map(gdpinfo, plot_countries, year, map_file):
     worldmap.add('Missing from World Bank Data',plot_set_1 )
     worldmap.add('No GDP Data' ,plot_set_2 )
     worldmap.render_in_browser()
-
-
-def test_render_world_map():
-    """
-    Test the project code for several years.
-    """
-    gdpinfo = {
-        "gdpfile": "isp_gdp.csv",
-        "separator": ",",
-        "quote": '"',
-        "min_year": 1960,
-        "max_year": 2015,
-        "country_name": "Country Name",
-        "country_code": "Country Code"
-    }
-
-    # Get pygal country code map
-    pygal_countries = pygal.maps.world.COUNTRIES
-
-    # 1960
-    render_world_map(gdpinfo, pygal_countries, "1960", "isp_gdp_world_name_1960.svg")
-
-    # 1980
-    render_world_map(gdpinfo, pygal_countries, "1980", "isp_gdp_world_name_1980.svg")
-
-    # 2000
-    render_world_map(gdpinfo, pygal_countries, "2000", "isp_gdp_world_name_2000.svg")
-
-    # 2010
-    render_world_map(gdpinfo, pygal_countries, "2010", "isp_gdp_world_name_2010.svg")
-
-test_render_world_map()
