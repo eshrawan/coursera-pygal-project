@@ -46,22 +46,28 @@ def build_map_dict_by_name(gdpinfo, plot_countries, year):
       codes from plot_countries that were found in the GDP data file, but
       have no GDP data for the specified year.
     """
-    country_dict = {}
-    country_no_data = set()
-    dict_2 = {}
-    with open(gdpinfo["gdpfile"],"r", newline="") as openfile:
-        csvread =  csv.DictReader(openfile, skipinitialspace = True,
-        delimiter = gdpinfo["separator"], quotechar=gdpinfo["quote"])
-        for item in csvread:
-                dict_2[item[gdpinfo["country_name"]]] = item
-        final_dict, final_set = reconcile_countries_by_name(plot_countries, dict_2)
-        for key,value in final_dict.items():
-            if dict_2[value][year] == "":
-                country_no_data(key)
-            else:
-                country_dict[key] = math.log10(float(dict_2[value][year]))
+    plot_dict ={}
+    plot_dict_1 ={}
+    plot_set_1 = set()
+    plot_set_2 = set()
+    new_data_dict = {}
+    with open(gdpinfo['gdpfile'], 'r') as data_file:
+        data = csv.DictReader(data_file, delimiter=gdpinfo['separator']
+                                      ,quotechar = gdpinfo['quote'])
+    for row in data:
+        new_data_dict[row[gdpinfo['country_name']]] = row
 
-        return country_dict, final_set, country_no_data
+        plot_dict, plot_set_1 = reconcile_countries_by_name(plot_countries, new_data_dict)
+
+        for key,value in plot_dict.items():
+            for key1,val1 in new_data_dict.items():
+                if value == key1:
+                    if val1[year]!='':
+                        plot_dict_1[key] = math.log(float(val1[year]),10)
+                    else:
+                        plot_set_2.add(key)
+
+    return plot_dict_1, set(plot_set_1), set(plot_set_2)
 
 
 
