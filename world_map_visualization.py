@@ -25,7 +25,7 @@ def reconcile_countries_by_name(plot_countries, gdp_countries):
     list_tups = list(filter(lambda tup: tup[1] in gdp_countries,   plot_countries.items()))
     finaldict = dict(list_tups)
     list_tups_2 = list(filter(lambda tup: tup[1] not in gdp_countries,  plot_countries.items()))
-    finalset = set([item[0] for item in l_of_tups])
+    finalset = set([item[0] for item in list_tups_2])
     return finaldict, finalset
 
 
