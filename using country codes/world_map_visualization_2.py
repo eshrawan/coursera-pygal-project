@@ -1,14 +1,34 @@
 """
-Project for Week 4 of "Python Data Visualization".
-Unify data via common country codes.
-
-Be sure to read the project description page for further information
-about the expected behavior of the program.
+Project that shows GDP data on world map using country codes.
+code author: @eshrawan
 """
 
 import csv
 import math
 import pygal
+
+# copying function from earlier course in specialization
+# author: @eshrawan
+
+def read_csv_as_nested_dict(filename, keyfield, separator, quote):
+    """
+    Inputs:
+      filename  - name of CSV file
+      keyfield  - field to use as key for rows
+      separator - character that separates fields
+      quote     - character used to optionally quote fields
+    Output:
+      Returns a dictionary of dictionaries where the outer dictionary
+      maps the value in the key_field to the corresponding row in the
+      CSV file.  The inner dictionaries map the field names to the
+      field values for that row.
+    """
+    table = {}
+    with open(filename, "rt", newline='') as csvfile:
+        csvreader = csv.DictReader(csvfile, delimiter=separator, quotechar=quote)
+        for row in csvreader:
+            table[row[keyfield]] = row
+    return table
 
 
 def build_country_code_converter(codeinfo):
@@ -21,7 +41,12 @@ def build_country_code_converter(codeinfo):
       are world bank country codes, where the code fields in the
       code file are specified in codeinfo.
     """
-    return {}
+    test = read_csv_as_nested_dict(codeinfo['codefile'],
+    codeinfo['plot_codes'], codeinfo['separator'], codeinfo['quote'])
+    cc_dict = {}
+    for item in test:
+        cc_dict[item] = test[item][codeinfo['data_codes']]
+    return cc_dict
 
 
 def reconcile_countries_by_code(codeinfo, plot_countries, gdp_countries):
