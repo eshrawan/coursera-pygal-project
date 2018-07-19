@@ -16,7 +16,7 @@ def reconcile_countries_by_name(plot_countries, gdp_countries):
                        and values are the corresponding country name
       gdp_countries  - Dictionary whose keys are country names used in GDP data
 
-    Output:
+    Outputs:
       A tuple containing a dictionary and a set.  The dictionary maps
       country codes from plot_countries to country names from
       gdp_countries The set contains the country codes from
